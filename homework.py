@@ -2,6 +2,7 @@ import datetime as dt
 
 
 class Record:
+
     def __init__(self, amount: float, comment: str, date=None):
         self.amount = amount
         self.comment = comment
@@ -57,24 +58,24 @@ class CashCalculator(Calculator):
         if currency == 'usd':
             if self.get_today_stats() > self.limit:
                 difference = self.get_today_stats() - self.limit
-                difference = round((difference / self.USD_RATE), 2)
+                difference = round(difference / self.USD_RATE, 2)
                 return f'Денег нет, держись: твой долг - {difference} USD'
             elif self.get_today_stats() == self.limit:
                 return 'Денег нет, держись'
             else:
                 difference = self.limit - self.get_today_stats()
-                difference = round((difference / self.USD_RATE), 2)
+                difference = round(difference / self.USD_RATE, 2)
                 return f'На сегодня осталось {difference} USD'
         if currency == 'eur':
             if self.get_today_stats() > self.limit:
                 difference = self.get_today_stats() - self.limit
-                difference = round((difference / self.EURO_RATE), 2)
+                difference = round(difference / self.EURO_RATE, 2)
                 return f'Денег нет, держись: твой долг - {difference} Euro'
             elif self.get_today_stats() == self.limit:
                 return 'Денег нет, держись'
             else:
                 difference = self.limit - self.get_today_stats()
-                difference = round((difference / self.EURO_RATE), 2)
+                difference = round(difference / self.EURO_RATE, 2)
                 return f'На сегодня осталось {difference} Euro'
 
 
