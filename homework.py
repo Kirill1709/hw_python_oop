@@ -26,7 +26,7 @@ class Calculator:
         self.limit = limit
         self.records: list[Any] = []
 
-    def add_record(self, record) -> None:
+    def add_record(self, record: Any) -> None:
         """Сохранение записи в список"""
         self.records.append(record)
 
