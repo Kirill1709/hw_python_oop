@@ -1,5 +1,5 @@
 import datetime as dt
-from typing import Any, List, Optional
+from typing import List, Optional
 
 FORMAT: str = '%d.%m.%Y'
 
@@ -28,7 +28,7 @@ class Calculator:
         self.limit = limit
         self.records: List['Record'] = []
 
-    def add_record(self, record: Any) -> None:
+    def add_record(self, record: 'Record') -> None:
         """Сохранение записи в список."""
         self.records.append(record)
 
@@ -46,6 +46,8 @@ class Calculator:
                    if week_ago < record.date <= date_today)
 
     def limit_stats(self) -> float:
+        """Вычисление разницы между лимитом и
+        количеством денег/калорий за сегодняшний день."""
         return self.limit - self.get_today_stats()
 
 
@@ -58,20 +60,21 @@ class CashCalculator(Calculator):
 
     def get_today_cash_remained(self, currency: str) -> str:
         """Сравнение финансового состояния с лимитом и вывод результата."""
+        difference = self.limit_stats()
+        if difference == 0:
+            return 'Денег нет, держись'
         currencies = {'usd': (self.USD_RATE, 'USD'),
                       'eur': (self.EURO_RATE, 'Euro'),
                       'rub': (self.RUB_RATE, 'руб')}
-        currency_rate, currency_name = [0, 1]
-        difference = self.limit_stats()
-        quantity = round((difference / currencies[currency][currency_rate]), 2)
+        if currency not in currencies:
+            raise ValueError('Такой валюты в списке нет')
+        currency_rate, currency_name = currencies[currency]
+        quantity = round(difference / currency_rate, 2)
         if difference < 0:
             quantity = abs(quantity)
             return (f'Денег нет, держись: твой долг - '
-                    f'{quantity} {currencies[currency][currency_name]}')
-        elif difference == 0:
-            return 'Денег нет, держись'
-        return (f'На сегодня осталось '
-                f'{quantity} {currencies[currency][currency_name]}')
+                    f'{quantity} {currency_name}')
+        return (f'На сегодня осталось {quantity} {currency_name}')
 
 
 class CaloriesCalculator(Calculator):
