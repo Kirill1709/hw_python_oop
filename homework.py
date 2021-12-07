@@ -86,3 +86,26 @@ class CaloriesCalculator(Calculator):
             return ('Сегодня можно съесть что-нибудь ещё, но с общей'
                     f' калорийностью не более {difference} кКал')
         return 'Хватит есть!'
+
+
+cash_calculator = CashCalculator(2400)
+r1 = Record(600, "На кофе")
+r2 = Record(1000, "На чай")
+r3 = Record(800, "На интернет", '20.03.2021')
+cash_calculator.add_record(r1)
+cash_calculator.add_record(r2)
+cash_calculator.add_record(r3)
+
+print(cash_calculator.get_week_stats())
+print(cash_calculator.get_today_cash_remained('rub'))
+
+cash_calculator = CaloriesCalculator(1000)
+r1 = Record(600, "На кофе")
+r2 = Record(800, "На чай")
+r3 = Record(100, "На интернет", '20.03.2021')
+cash_calculator.add_record(r1)
+cash_calculator.add_record(r2)
+cash_calculator.add_record(r3)
+print(cash_calculator.get_today_stats())
+print(cash_calculator.get_week_stats())
+print(cash_calculator.get_calories_remained())
